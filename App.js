@@ -30,8 +30,16 @@ export default function App() {
 
   useEffect(() => {
     if (running)
-      beepAudioSound.replayAsync();
+      beepAudioSound.replayAsync().catch((err) => {
+        setRunning(false);
+        alert("Ooops, something went wrong. " + JSON.stringify(err));
+      });
   }, [tick, running]);
+
+  useEffect(() => {
+    if (running)
+      setRunning(false);
+  }, [delay]);
 
   useInterval(() => {
       setTick(tick === 0 ? 1 : 0);
